@@ -27,7 +27,6 @@ export const register = async (req, res) => {
     });
 
     res.json({ status: "ok", msg: "auth created" });
-    console.log("Auth ID:", newAuth._id);
   } catch (error) {
     console.error("Registration Error:", error);
     res.status(400).json({ status: "error", msg: "invalid registration" });
@@ -40,8 +39,6 @@ export const login = async (req, res) => {
     if (!auth) {
       return res.status(400).json({ status: "error", msg: "not authorised" });
     }
-
-    console.log("Generated User ID (auth._id):", auth._id);
 
     const result = await bcrypt.compare(req.body.password, auth.hash);
     if (!result) {

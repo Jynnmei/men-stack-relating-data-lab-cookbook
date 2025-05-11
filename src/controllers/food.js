@@ -43,6 +43,8 @@ export const getAllFood = async (req, res) => {
 // // confirmation that the item has been saved in my pantry.
 export const addUserNewFood = async (req, res) => {
   try {
+    console.log("Decoded User ID: ", req.decoded.id);
+
     const user = await User.findById(req.decoded.id);
 
     if (!user) {
@@ -75,7 +77,8 @@ export const getUserFood = async (req, res) => {
 // // allowing me full control over managing my stored items.
 export const deleteUserFood = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const userId = req.decoded.id;
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ status: "error", msg: "User not found" });
@@ -87,7 +90,7 @@ export const deleteUserFood = async (req, res) => {
 
     res.json({ status: "ok", msg: "Food item deleted" });
   } catch (error) {
-    console.error(error.message);
+    console.error("Delete error:", error);
     res.status(400).json({ status: "error", msg: "Error deleting food" });
   }
 };
@@ -132,7 +135,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserPantry = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.decoded.id;
     const user = await User.findById(userId);
 
     if (!user) {
