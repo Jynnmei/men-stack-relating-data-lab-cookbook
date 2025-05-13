@@ -1,13 +1,8 @@
 import User from "../models/User.js";
-import mongoose from "mongoose";
 
 export const seedUserFood = async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ status: "error", msg: "User not found" });
-    }
+    await User.deleteMany({});
 
     const defaultPantry = [
       { name: "Apple" },
@@ -22,10 +17,9 @@ export const seedUserFood = async (req, res) => {
       { name: "Tofu" },
     ];
 
-    user.pantry.push(...defaultPantry);
-
-    // 保存更新后的用户数据
-    await user.save();
+    const user = await User.create({
+      pantry: defaultPantry,
+    });
 
     res.json({ status: "ok", msg: "seeding successful" });
   } catch (error) {

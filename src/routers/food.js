@@ -23,35 +23,35 @@ router.get("/foods/seed", seedUserFood);
 
 router.get("/foods", auth, getAllFood);
 
-router.post("/foods", checkFoodInput, checkErros, auth, addUserNewFood);
+router.post("/foods", auth, checkFoodInput, checkErros, addUserNewFood);
 router.get(
   "/foods/:userId",
+  auth,
   validateUserIdParam,
   checkErros,
-  auth,
   getUserFood
 );
 
 router.delete(
   "/foods/:userId",
+  auth,
   validateUserIdParam,
   checkFoodInput,
   checkErros,
-  auth,
   deleteUserFood
 );
 
 router.put(
   "/foods/:itemId",
+  auth,
   validateItemIdParam,
   checkFoodInput,
   checkErros,
-  auth,
   putFood
 );
 
 router.get("/", auth, getAllUsers);
 
-router.get("/:userId", validateUserIdParam, checkErros, auth, getUserPantry);
+router.get("/:userId", auth, validateUserIdParam, checkErros, getUserPantry);
 
 export default router;
